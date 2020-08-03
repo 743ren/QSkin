@@ -1,3 +1,4 @@
+include ':skin_red'
 include ':library'
 include ':app'
 rootProject.name = "QSkin"

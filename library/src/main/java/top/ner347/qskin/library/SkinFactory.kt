@@ -5,9 +5,13 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import java.lang.reflect.Constructor
+import java.util.*
+import kotlin.collections.HashMap
 
 
-class SkinFactory : LayoutInflater.Factory2 {
+class SkinFactory : LayoutInflater.Factory2, Observer {
+    private var skinAttribute: SkinAttribute = SkinAttribute()
+
     /**
      * 进行缓存起来，因为 ClassLoader getConstructor 是耗费性能的
      */
@@ -41,6 +45,9 @@ class SkinFactory : LayoutInflater.Factory2 {
         // 如果为null，可认为是自定义View，所以需要传入 name + "" ---> 自定义控件包名和控件名 + ""
         if (null == resultView) {
             resultView = createView(name, "", context, attrs);
+        }
+        resultView?.let {
+            skinAttribute.load(it, attrs)
         }
         return resultView
     }
@@ -100,5 +107,9 @@ class SkinFactory : LayoutInflater.Factory2 {
             }
         }
         return null
+    }
+
+    override fun update(o: Observable?, arg: Any?) {
+        skinAttribute.applySkin()
     }
 }

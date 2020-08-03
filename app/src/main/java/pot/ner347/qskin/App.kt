@@ -8,5 +8,4 @@ class App : Application() {
         super.onCreate()
         SkinManager.getInstance(this)
     }
-
 }
