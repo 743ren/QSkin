@@ -44,7 +44,7 @@ class SkinAttribute {
                 // android:textColor="?colorPrimary" 这种系统里面的自带值，在 R 文件里是 ?123456 这种
                 val attrId = attributeValue.substring(1).toInt()
                 // 拿到对应的属性值
-                getResId(view.context, intArrayOf(attrId))[0]
+                SkinThemeUtils.getResId(view.context, intArrayOf(attrId))[0]
             } else {
                 // @drawable/x.png 这种自定义属性，拿到值
                 attributeValue.substring(1).toInt()
@@ -64,16 +64,6 @@ class SkinAttribute {
             // 记录下来，方便以后直接用
             skinViews.add(skinView)
         }
-    }
-
-    private fun getResId(context: Context, attrs: IntArray): IntArray {
-        val ints = IntArray(attrs.size)
-        val typedArray: TypedArray = context.obtainStyledAttributes(attrs)
-        for (i in 0 until typedArray.length()) {
-            ints[i] = typedArray.getResourceId(i, 0)
-        }
-        typedArray.recycle()
-        return ints
     }
 
     // 一个类，参数是 View 和需要被修改的属性，对外暴露一个方法，去真正修改 View 的属性

@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="text_color">#ff0000</color>
+    <color name="status_bar_color">#eeff0000</color>
+    <color name="colorPrimary">#ff00EE</color>
+    <color name="colorPrimaryDark">#ff37FF</color>
+    <color name="colorAccent">#ffDAC5</color>
+    <color name="navigationBarColor">#ccff0000</color>
 </resources>

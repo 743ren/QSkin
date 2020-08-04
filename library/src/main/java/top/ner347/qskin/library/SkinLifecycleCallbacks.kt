@@ -36,10 +36,14 @@ class SkinLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
             e.printStackTrace()
         }
 
-        val factory2 = SkinFactory()
+        val factory2 = SkinFactory(activity)
         layoutInflater.factory2 = factory2
         layoutInflaterFactories[activity] = factory2
         SkinManager.getInstance(activity.application).addObserver(factory2)
+
+        // 修改状态栏、导航栏
+        SkinThemeUtils.updateNavigationBarColor(activity)
+        SkinThemeUtils.updateStatusBarColor(activity)
     }
 
     override fun onActivityResumed(activity: Activity) {

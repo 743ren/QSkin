@@ -1,5 +1,6 @@
 package top.ner347.qskin.library
 
+import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -9,7 +10,7 @@ import java.util.*
 import kotlin.collections.HashMap
 
 
-class SkinFactory : LayoutInflater.Factory2, Observer {
+class SkinFactory(val activity : Activity) : LayoutInflater.Factory2, Observer {
     private var skinAttribute: SkinAttribute = SkinAttribute()
 
     /**
@@ -110,6 +111,8 @@ class SkinFactory : LayoutInflater.Factory2, Observer {
     }
 
     override fun update(o: Observable?, arg: Any?) {
+        SkinThemeUtils.updateStatusBarColor(activity)
+        SkinThemeUtils.updateNavigationBarColor(activity)
         skinAttribute.applySkin()
     }
 }
