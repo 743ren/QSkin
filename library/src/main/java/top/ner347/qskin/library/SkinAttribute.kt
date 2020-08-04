@@ -1,7 +1,5 @@
 package top.ner347.qskin.library
 
-import android.content.Context
-import android.content.res.TypedArray
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
@@ -69,8 +67,8 @@ class SkinAttribute {
     // 一个类，参数是 View 和需要被修改的属性，对外暴露一个方法，去真正修改 View 的属性
     internal class SkinView(
         private val view: View,
-        private val attributeNameAndValues: List<AttributeNameAndValue>
-    ) {
+        private val attributeNameAndValues: List<AttributeNameAndValue>) {
+
         fun applySkinChange() {
             for (attributeNameAndValue in attributeNameAndValues) {
                 var left: Drawable? = null

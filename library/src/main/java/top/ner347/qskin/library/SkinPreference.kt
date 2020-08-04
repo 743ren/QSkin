@@ -23,8 +23,6 @@ class SkinPreference private constructor(context: Context){
             }
             return instance!!
         }
-
-        fun getInstance() = instance
     }
 
     fun setSkin(skinPath: String?) {

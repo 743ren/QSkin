@@ -7,21 +7,22 @@ import android.content.res.Resources
 import android.text.TextUtils
 import java.util.*
 
-class SkinManager private constructor(val app : Application) : Observable() {
+class SkinManager private constructor(private val app : Application) : Observable() {
+    private var skinPreference : SkinPreference = SkinPreference.init(app)
+    private var skinResources: SkinResources = SkinResources.init(app)
 
     init {
-        SkinPreference.init(app)
-        SkinResources.init(app)
         app.registerActivityLifecycleCallbacks(SkinLifecycleCallbacks())
 
         // 加载皮肤
-        changeSkin(SkinPreference.getInstance()?.getSkin())
+        changeSkin(skinPreference.getSkin())
     }
 
     companion object {
         @Volatile
         private var instance: SkinManager? = null
 
+        @JvmStatic
         fun getInstance(app : Application) : SkinManager {
             if (instance == null) {
                 synchronized(SkinManager::class) {
@@ -39,9 +40,9 @@ class SkinManager private constructor(val app : Application) : Observable() {
      */
     fun changeSkin(skinPath : String?) {
         if (TextUtils.isEmpty(skinPath)) {
-            SkinPreference.getInstance()?.setSkin("")
+            skinPreference.setSkin("")
             // 使用默认皮肤，清空一些
-            SkinResources.getInstance()?.reset()
+            skinResources.reset()
         } else {
             try {
                 // 反射创建 AssetManager 与 Resource
@@ -61,15 +62,17 @@ class SkinManager private constructor(val app : Application) : Observable() {
                 )
 
                 // 记录下使用的皮肤包路径
-                SkinPreference.getInstance()?.setSkin(skinPath)
+                skinPreference.setSkin(skinPath)
 
                 // 获取皮肤包包名
-                val mPm: PackageManager = app.packageManager
-                val info = mPm.getPackageArchiveInfo(skinPath, PackageManager.GET_ACTIVITIES)
-                val packageName = info?.packageName
-                SkinResources.getInstance()?.applySkin(skinResource, packageName)
+                val packageName = app.packageManager
+                    .getPackageArchiveInfo(skinPath!!, PackageManager.GET_ACTIVITIES)
+                    ?.packageName
+                skinResources.applySkin(skinResource, packageName)
             } catch (e: Exception) {
                 e.printStackTrace()
+                skinPreference.setSkin("")
+                skinResources.reset()
             }
         }
         // 通知所有观察者

@@ -9,8 +9,7 @@ import java.lang.reflect.Constructor
 import java.util.*
 import kotlin.collections.HashMap
 
-
-class SkinFactory(val activity : Activity) : LayoutInflater.Factory2, Observer {
+class SkinFactory(private val activity : Activity) : LayoutInflater.Factory2, Observer {
     private var skinAttribute: SkinAttribute = SkinAttribute()
 
     /**
@@ -54,7 +53,7 @@ class SkinFactory(val activity : Activity) : LayoutInflater.Factory2, Observer {
     }
 
     override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
-        TODO("Not yet implemented")
+        return null
     }
 
     /**
@@ -69,7 +68,7 @@ class SkinFactory(val activity : Activity) : LayoutInflater.Factory2, Observer {
         for (s in sClassPrefixList) {
             view = createView(name, s, context, attrs)
             if (view != null) {
-                break // 结束循环♻️
+                break
             }
         }
         return view

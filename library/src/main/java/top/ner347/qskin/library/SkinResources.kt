@@ -51,7 +51,7 @@ class SkinResources private constructor(context: Context) {
         isDefaultSkin = TextUtils.isEmpty(pkgName) || resources == null
     }
 
-    fun getIdentifier(resId: Int): Int {
+    private fun getIdentifier(resId: Int): Int {
         if (isDefaultSkin) {
             return resId
         }
