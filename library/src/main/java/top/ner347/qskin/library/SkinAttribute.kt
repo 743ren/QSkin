@@ -57,7 +57,7 @@ class SkinAttribute(private val typeface: Typeface?) {
         }
         // for 循环后，attributeNameAndValues 内记录了所有需要替换的属性和属性值
         // 如果是空的，但是 TextView，可能需要换字体
-        if (attributeNameAndValues.isNotEmpty() || view is TextView) {
+        if (attributeNameAndValues.isNotEmpty() || view is TextView || view is SkinViewSupport) {
             val skinView = SkinView(view, attributeNameAndValues)
             // Activity 创建后会经过 Factory2 调到这里，主动去应用当前皮肤包资源
             // 这样如果切换了皮肤后，新创建的 Activity 也能使用新的皮肤
@@ -74,7 +74,7 @@ class SkinAttribute(private val typeface: Typeface?) {
 
         fun applySkinChange(typeface: Typeface?) {
             applyTypeFace(typeface)
-
+            applySkinSupport()
             for (attributeNameAndValue in attributeNameAndValues) {
                 var left: Drawable? = null
                 var top: Drawable? = null
@@ -118,6 +118,12 @@ class SkinAttribute(private val typeface: Typeface?) {
         private fun applyTypeFace(typeface: Typeface?) {
             if (view is TextView && typeface != null) {
                 view.typeface = typeface
+            }
+        }
+
+        private fun applySkinSupport() {
+            if (view is SkinViewSupport) {
+                (view as SkinViewSupport).applySkinChange()
             }
         }
     }

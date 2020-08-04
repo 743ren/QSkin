@@ -6,4 +6,5 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="status_bar_color">#49f00c</color>
     <color name="navigationBarColor">#49f00c</color>
+    <color name="test_bg">#00ff00</color>
 </resources>
