@@ -22,6 +22,7 @@ class SkinAttribute(private val typeface: Typeface?) {
         mAttributes.add("drawableTop")
         mAttributes.add("drawableRight")
         mAttributes.add("drawableBottom")
+        mAttributes.add("skinTypeface")
     }
 
     private val skinViews: MutableList<SkinView> = ArrayList()
@@ -106,8 +107,7 @@ class SkinAttribute(private val typeface: Typeface?) {
                     "drawableTop" -> top = skinResources.getDrawable(attributeNameAndValue.resId)
                     "drawableRight" -> right = skinResources.getDrawable(attributeNameAndValue.resId)
                     "drawableBottom" -> bottom = skinResources.getDrawable(attributeNameAndValue.resId)
-                    else -> {
-                    }
+                    "skinTypeface" -> applyTypeFace(skinResources.getTypeface(attributeNameAndValue.resId))
                 }
                 if (null != left || null != right || null != top || null != bottom) {
                     (view as TextView).setCompoundDrawablesWithIntrinsicBounds(left, top, right, bottom)
