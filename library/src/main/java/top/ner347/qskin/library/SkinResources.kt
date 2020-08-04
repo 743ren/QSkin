@@ -3,6 +3,7 @@ package top.ner347.qskin.library
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
 
@@ -117,6 +118,26 @@ class SkinResources private constructor(context: Context) {
         return if (skinId == 0) {
             appResources.getString(resId)
         } else skinResources!!.getString(skinId)
+    }
+
+    fun getTypeface(skinTypefaceId: Int): Typeface {
+        val skinTypefacePath = getString(skinTypefaceId)
+        // 没有在 strings.xml 中写字体路径
+        if (TextUtils.isEmpty(skinTypefacePath)) {
+            return Typeface.DEFAULT
+        }
+        try {
+            return if (isDefaultSkin) {
+                // 在 app 的 assets 中找这个字体文件
+                Typeface.createFromAsset(appResources.assets, skinTypefacePath)
+            } else {
+                // 在皮肤包的 assets 中找这个字体文件
+                Typeface.createFromAsset(skinResources?.assets, skinTypefacePath)
+            }
+        } catch (e: Exception) {
+        }
+        // 如果上面没能返回成功一个默认字体
+        return Typeface.DEFAULT
     }
 
 }

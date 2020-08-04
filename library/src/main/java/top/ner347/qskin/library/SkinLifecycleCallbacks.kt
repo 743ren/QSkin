@@ -36,7 +36,7 @@ class SkinLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
             e.printStackTrace()
         }
 
-        val factory2 = SkinFactory(activity)
+        val factory2 = SkinFactory(activity, SkinThemeUtils.getTypeface(activity))
         layoutInflater.factory2 = factory2
         layoutInflaterFactories[activity] = factory2
         SkinManager.getInstance(activity.application).addObserver(factory2)

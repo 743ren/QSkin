@@ -4,17 +4,18 @@ import android.R
 import android.app.Activity
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.Typeface
 import android.os.Build
 import androidx.annotation.RequiresApi
 
 class SkinThemeUtils {
 
     companion object {
-        private val APPCOMPAT_COLOR_PRIMARY_DARK_ATTRS = intArrayOf(
-            androidx.appcompat.R.attr.colorPrimaryDark
-        )
+        private val APPCOMPAT_COLOR_PRIMARY_DARK_ATTRS = intArrayOf(androidx.appcompat.R.attr.colorPrimaryDark)
         private val STATUS_BAR_COLOR_ATTR = intArrayOf(R.attr.statusBarColor)
         private val NAVIGATION_BAR_COLOR_ATTR = intArrayOf(R.attr.navigationBarColor)
+
+        private val TYPEFACE_ATTR = intArrayOf(top.ner347.qskin.library.R.attr.skinTypeface)
 
         fun getResId(context: Context, attrs: IntArray): IntArray {
             val ints = IntArray(attrs.size)
@@ -61,6 +62,9 @@ class SkinThemeUtils {
                 }
             }
         }
+
+        fun getTypeface(activity: Activity) : Typeface? =
+            SkinResources.getInstance()?.getTypeface(getResId(activity, TYPEFACE_ATTR)[0])
 
     }
 }

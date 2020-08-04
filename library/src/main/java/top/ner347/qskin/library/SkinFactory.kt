@@ -2,6 +2,7 @@ package top.ner347.qskin.library
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,8 @@ import java.lang.reflect.Constructor
 import java.util.*
 import kotlin.collections.HashMap
 
-class SkinFactory(private val activity : Activity) : LayoutInflater.Factory2, Observer {
-    private var skinAttribute: SkinAttribute = SkinAttribute()
+class SkinFactory(private val activity : Activity, typeface : Typeface?) : LayoutInflater.Factory2, Observer {
+    private var skinAttribute: SkinAttribute = SkinAttribute(typeface)
 
     /**
      * 进行缓存起来，因为 ClassLoader getConstructor 是耗费性能的
@@ -112,6 +113,6 @@ class SkinFactory(private val activity : Activity) : LayoutInflater.Factory2, Ob
     override fun update(o: Observable?, arg: Any?) {
         SkinThemeUtils.updateStatusBarColor(activity)
         SkinThemeUtils.updateNavigationBarColor(activity)
-        skinAttribute.applySkin()
+        skinAttribute.applySkin(SkinThemeUtils.getTypeface(activity))
     }
 }

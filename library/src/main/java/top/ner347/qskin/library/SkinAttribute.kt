@@ -1,5 +1,6 @@
 package top.ner347.qskin.library
 
+import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
@@ -8,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.ViewCompat
 
-class SkinAttribute {
+class SkinAttribute(private val typeface: Typeface?) {
 
     // 需要替换的属性名称集合
     private val mAttributes: MutableList<String> = mutableListOf();
@@ -54,11 +55,12 @@ class SkinAttribute {
             }
         }
         // for 循环后，attributeNameAndValues 内记录了所有需要替换的属性和属性值
-        if (attributeNameAndValues.isNotEmpty()) {
+        // 如果是空的，但是 TextView，可能需要换字体
+        if (attributeNameAndValues.isNotEmpty() || view is TextView) {
             val skinView = SkinView(view, attributeNameAndValues)
             // Activity 创建后会经过 Factory2 调到这里，主动去应用当前皮肤包资源
             // 这样如果切换了皮肤后，新创建的 Activity 也能使用新的皮肤
-            skinView.applySkinChange()
+            skinView.applySkinChange(typeface)
             // 记录下来，方便以后直接用
             skinViews.add(skinView)
         }
@@ -69,7 +71,9 @@ class SkinAttribute {
         private val view: View,
         private val attributeNameAndValues: List<AttributeNameAndValue>) {
 
-        fun applySkinChange() {
+        fun applySkinChange(typeface: Typeface?) {
+            applyTypeFace(typeface)
+
             for (attributeNameAndValue in attributeNameAndValues) {
                 var left: Drawable? = null
                 var top: Drawable? = null
@@ -110,11 +114,17 @@ class SkinAttribute {
                 }
             }
         }
+
+        private fun applyTypeFace(typeface: Typeface?) {
+            if (view is TextView && typeface != null) {
+                view.typeface = typeface
+            }
+        }
     }
 
-    fun applySkin() {
+    fun applySkin(typeface: Typeface?) {
         for (skinView in skinViews) {
-            skinView.applySkinChange()
+            skinView.applySkinChange(typeface)
         }
     }
 }
