@@ -15,6 +15,7 @@ class TestView @JvmOverloads constructor(
         // 如果没有设置或者直接设置的颜色值，bgId 为 0
         bgId = typedArray.getResourceId(R.styleable.TestView_bg, 0)
         setBackgroundColor(id)
+        typedArray.recycle()
     }
 
     override fun applySkinChange() {
