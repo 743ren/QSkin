@@ -54,7 +54,7 @@ class SkinFactory(private val activity : Activity, typeface : Typeface?) : Layou
     }
 
     override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
-        return null
+        return activity.onCreateView(name, context, attrs)
     }
 
     /**

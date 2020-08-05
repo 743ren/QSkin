@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.content.res.AssetManager
 import android.content.res.Resources
 import android.text.TextUtils
+import java.io.File
 import java.util.*
 
 class SkinManager private constructor(private val app : Application) : Observable() {
@@ -39,10 +40,9 @@ class SkinManager private constructor(private val app : Application) : Observabl
      * 调用这个方法切换皮肤
      */
     fun changeSkin(skinPath : String?) {
-        if (TextUtils.isEmpty(skinPath)) {
+        if (TextUtils.isEmpty(skinPath) || !File(skinPath!!).exists()) {
             skinPreference.setSkin("")
-            // 使用默认皮肤，清空一些
-            skinResources.reset()
+            skinResources.reset() // 使用默认皮肤，清空一些
         } else {
             try {
                 // 反射创建 AssetManager 与 Resource
