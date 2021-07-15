@@ -11,8 +11,7 @@ class FactoryMerger (
     private val mF12: Factory2?,
     private val mF2: LayoutInflater.Factory,
     private val mF22: Factory2?
-) :
-    Factory2 {
+) : Factory2 {
     override fun onCreateView(
         name: String, context: Context,
         attrs: AttributeSet

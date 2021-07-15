@@ -14,12 +14,12 @@ class SkinFactory(private val activity : Activity, typeface : Typeface?) : Layou
     private var skinAttribute: SkinAttribute = SkinAttribute(typeface)
 
     /**
-     * 进行缓存起来，因为 ClassLoader getConstructor 是耗费性能的
+     * 缓存起来，因为 ClassLoader getConstructor 是耗费性能的
      */
     private val sConstructorMap: HashMap<String, Constructor<out View>> = hashMapOf()
 
     /**
-     * 例如：new TextView(context, attr)  或  new Button(context, attr)  或 new Button(context, attr) ...
+     * 例如：new TextView(context, attr)  或  new Button(context, attr)  ...
      * 所以需要建立获取控件的构造方法 参数类型，好去创建构造对象
      */
     private val mConstructorSignature = arrayOf(
@@ -93,21 +93,19 @@ class SkinFactory(private val activity : Activity, typeface : Typeface?) : Layou
                 val clazz = context.classLoader.loadClass(prefix + name)
                     .asSubclass(View::class.java)
                 constructor = clazz.getConstructor(*mConstructorSignature)
-                constructor.isAccessible = true
                 sConstructorMap[name] = constructor // 缓存构造器
-                return constructor.newInstance(context, attrs)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        } else {
-            try {
-                constructor.isAccessible = true
-                return constructor.newInstance(context, attrs)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
-        return null
+        return constructor?.let {
+            try {
+                constructor.isAccessible = true
+                constructor.newInstance(context, attrs)
+            } catch (e: Exception) {
+                null
+            }
+        }
     }
 
     override fun update(o: Observable?, arg: Any?) {

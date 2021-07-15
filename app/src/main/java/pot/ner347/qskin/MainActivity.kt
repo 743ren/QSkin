@@ -35,13 +35,12 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.changeSkin).setOnClickListener {
 //            selectSkin(skins[0])
-            SkinManager.getInstance(application).changeSkin(
+            SkinManager.changeSkin(
                 "${getExternalFilesDir("")?.absolutePath}/skin_red.skin"
-//               "/storage/emulated/0/Download/skin_red.skin"
             )
         }
         findViewById<Button>(R.id.reset).setOnClickListener {
-            SkinManager.getInstance(application).changeSkin(
+            SkinManager.changeSkin(
                 ""
             )
         }
@@ -93,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         theme.mkdirs()
         val skinFile: File = skin.getSkinFile(theme)
         if (skinFile.exists()) { // 皮肤已存在，去执行换肤
-            SkinManager.getInstance(application).changeSkin(skin.path)
+            SkinManager.changeSkin(skin.path)
             return
         }
         val tempSkin = File(skinFile.parentFile, "${skin.name}.temp")
@@ -101,7 +100,7 @@ class MainActivity : AppCompatActivity() {
         tempSkin.renameTo(skinFile)
         tempSkin.delete()
         // 执行换肤，可能要切换线程
-        SkinManager.getInstance(application).changeSkin(skin.path)
+        SkinManager.changeSkin(skin.path)
     }
 
     override fun onRequestPermissionsResult(

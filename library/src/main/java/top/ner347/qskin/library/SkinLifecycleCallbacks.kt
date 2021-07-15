@@ -18,7 +18,7 @@ class SkinLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
 
     override fun onActivityDestroyed(activity: Activity) {
         val factory2 = layoutInflaterFactories[activity]
-        SkinManager.getInstance(activity.application).deleteObserver(factory2)
+        SkinManager.deleteObserver(factory2)
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
@@ -58,7 +58,7 @@ class SkinLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
         }
 
         layoutInflaterFactories[activity] = factory2
-        SkinManager.getInstance(activity.application).addObserver(factory2)
+        SkinManager.addObserver(factory2)
 
         // 修改状态栏、导航栏
         SkinThemeUtils.updateNavigationBarColor(activity)

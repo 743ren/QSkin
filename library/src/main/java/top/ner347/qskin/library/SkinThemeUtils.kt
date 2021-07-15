@@ -4,7 +4,6 @@ import android.R
 import android.app.Activity
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.Typeface
 import android.os.Build
 import androidx.annotation.RequiresApi
 
@@ -36,14 +35,14 @@ class SkinThemeUtils {
             val statusBarColorResId = getResId(activity, STATUS_BAR_COLOR_ATTR)[0]
             // 如果直接在 style 中写入固定颜色值(而不是 @color/XXX ) 获得 0
             if (statusBarColorResId != 0) {
-                SkinResources.getInstance()?.getColor(statusBarColorResId)?.let {
+                SkinResources.getColor(statusBarColorResId)?.let {
                     activity.window.statusBarColor = it
                 }
             } else {
                 // 获得 colorPrimaryDark
                 val colorPrimaryDarkResId: Int = getResId(activity, APPCOMPAT_COLOR_PRIMARY_DARK_ATTRS)[0]
                 if (colorPrimaryDarkResId != 0) {
-                    SkinResources.getInstance()?.getColor(colorPrimaryDarkResId)?.let {
+                    SkinResources.getColor(colorPrimaryDarkResId)?.let {
                         activity.window.statusBarColor = it
                     }
                 }
@@ -57,14 +56,13 @@ class SkinThemeUtils {
         fun updateNavigationBarColor(activity: Activity) {
             val navigationBarColorResId = getResId(activity, NAVIGATION_BAR_COLOR_ATTR)[0]
             if (navigationBarColorResId != 0) {
-                SkinResources.getInstance()?.getColor(navigationBarColorResId)?.let {
+                SkinResources.getColor(navigationBarColorResId)?.let {
                     activity.window.navigationBarColor = it
                 }
             }
         }
 
-        fun getTypeface(activity: Activity) : Typeface? =
-            SkinResources.getInstance()?.getTypeface(getResId(activity, TYPEFACE_ATTR)[0])
-
+        fun getTypeface(activity: Activity) =
+            SkinResources.getTypeface(getResId(activity, TYPEFACE_ATTR)[0])
     }
 }

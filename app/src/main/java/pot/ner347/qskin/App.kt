@@ -6,6 +6,6 @@ import top.ner347.qskin.library.SkinManager
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
-        SkinManager.getInstance(this)
+        SkinManager.init(this)
     }
 }

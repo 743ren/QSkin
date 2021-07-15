@@ -20,7 +20,7 @@ class TestView @JvmOverloads constructor(
 
     override fun applySkinChange() {
         if (bgId != 0) {
-            SkinResources.getInstance()?.getColor(bgId)?.let {
+            SkinResources.getColor(bgId)?.let {
                 setBackgroundColor(it)
             }
         }

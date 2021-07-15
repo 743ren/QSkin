@@ -7,30 +7,15 @@ import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
 
-class SkinResources private constructor(context: Context) {
+object SkinResources {
 
-    private var skinResources: Resources? = null
+    private var appResources: Resources? = null // app 本身的 Resources
+    private var skinResources: Resources? = null // 皮肤包的 Resources
     private var skinPkgName: String? = null
     private var isDefaultSkin = true
-    private val appResources: Resources = context.resources // app 本身的 Resources
 
-    companion object {
-
-        @Volatile
-        private var instance: SkinResources? = null
-
-        fun init(context: Context): SkinResources {
-            if (instance == null) {
-                synchronized(SkinResources::class) {
-                    if (instance == null) {
-                        instance = SkinResources(context.applicationContext)
-                    }
-                }
-            }
-            return instance!!
-        }
-
-        fun getInstance() = instance
+    fun init(context: Context) {
+        appResources = context.resources
     }
 
     /**
@@ -57,52 +42,52 @@ class SkinResources private constructor(context: Context) {
             return resId
         }
         // 先从 app 本身的 resources.arsc 中读取这个 id 对应的 Name 和 Resource Type
-        val resName: String = appResources.getResourceEntryName(resId)
-        val resType: String = appResources.getResourceTypeName(resId)
+        val resName = appResources?.getResourceEntryName(resId)
+        val resType = appResources?.getResourceTypeName(resId)
         // 再根据这个 Name 和 Resource Type 读出在皮肤包的 resources.arsc 中对应的 id
-        return skinResources!!.getIdentifier(resName, resType, skinPkgName)
+        return skinResources?.getIdentifier(resName, resType, skinPkgName)?:0
     }
 
     /**
      * 读取皮肤包的资源
      */
-    fun getColor(resId: Int): Int {
+    fun getColor(resId: Int): Int? {
         if (isDefaultSkin) {
-            return appResources.getColor(resId)
+            return appResources?.getColor(resId)
         }
         // 读取皮肤包中的 id
         val skinId = getIdentifier(resId)
         return if (skinId == 0) {
             // 如果皮肤包中没有这个资源，就还用 app 本身的
-            appResources.getColor(resId)
-        } else skinResources!!.getColor(skinId)
+            appResources?.getColor(resId)
+        } else skinResources?.getColor(skinId)
     }
 
     fun getColorStateList(resId: Int): ColorStateList? {
         if (isDefaultSkin) {
-            return appResources.getColorStateList(resId)
+            return appResources?.getColorStateList(resId)
         }
         val skinId = getIdentifier(resId)
         return if (skinId == 0) {
-            appResources.getColorStateList(resId)
-        } else skinResources!!.getColorStateList(skinId)
+            appResources?.getColorStateList(resId)
+        } else skinResources?.getColorStateList(skinId)
     }
 
     fun getDrawable(resId: Int): Drawable? {
         if (isDefaultSkin) {
-            return appResources.getDrawable(resId)
+            return appResources?.getDrawable(resId)
         }
         val skinId = getIdentifier(resId)
         return if (skinId == 0) {
-            appResources.getDrawable(resId)
-        } else skinResources!!.getDrawable(skinId)
+            appResources?.getDrawable(resId)
+        } else skinResources?.getDrawable(skinId)
     }
 
     /**
      * 可能是Color 也可能是drawable
      */
     fun getBackground(resId: Int): Any? {
-        val resourceTypeName: String = appResources.getResourceTypeName(resId)
+        val resourceTypeName: String? = appResources?.getResourceTypeName(resId)
         return if (resourceTypeName == "color") {
             getColor(resId)
         } else {
@@ -112,12 +97,12 @@ class SkinResources private constructor(context: Context) {
 
     fun getString(resId: Int): String? {
         if (isDefaultSkin) {
-            return appResources.getString(resId)
+            return appResources?.getString(resId)
         }
         val skinId = getIdentifier(resId)
         return if (skinId == 0) {
-            appResources.getString(resId)
-        } else skinResources!!.getString(skinId)
+            appResources?.getString(resId)
+        } else skinResources?.getString(skinId)
     }
 
     fun getTypeface(skinTypefaceId: Int): Typeface {
@@ -129,7 +114,7 @@ class SkinResources private constructor(context: Context) {
         try {
             return if (isDefaultSkin) {
                 // 在 app 的 assets 中找这个字体文件
-                Typeface.createFromAsset(appResources.assets, skinTypefacePath)
+                Typeface.createFromAsset(appResources?.assets, skinTypefacePath)
             } else {
                 // 在皮肤包的 assets 中找这个字体文件
                 Typeface.createFromAsset(skinResources?.assets, skinTypefacePath)
