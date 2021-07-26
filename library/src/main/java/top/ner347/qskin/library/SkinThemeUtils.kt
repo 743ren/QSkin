@@ -31,6 +31,8 @@ class SkinThemeUtils {
          */
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         fun updateStatusBarColor(activity: Activity) {
+            if (!SkinManager.includeStatusBar) return
+
             // 当与 colorPrimaryDark 不同时，以 statusBarColor 为准
             val statusBarColorResId = getResId(activity, STATUS_BAR_COLOR_ATTR)[0]
             // 如果直接在 style 中写入固定颜色值(而不是 @color/XXX ) 获得 0
@@ -54,6 +56,8 @@ class SkinThemeUtils {
          */
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         fun updateNavigationBarColor(activity: Activity) {
+            if (!SkinManager.includeNavigationBar) return
+
             val navigationBarColorResId = getResId(activity, NAVIGATION_BAR_COLOR_ATTR)[0]
             if (navigationBarColorResId != 0) {
                 SkinResources.getColor(navigationBarColorResId)?.let {

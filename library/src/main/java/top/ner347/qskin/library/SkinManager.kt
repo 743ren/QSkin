@@ -10,12 +10,18 @@ import java.util.*
 
 object SkinManager: Observable() {
     private var app: Application? = null
+    var includeTypeface: Boolean = true
+    var includeStatusBar: Boolean = true
+    var includeNavigationBar: Boolean = true
 
     @JvmStatic
-    fun init(app: Application) {
+    fun init(app: Application, includeTypeface: Boolean = true, includeStatusBar: Boolean = true, includeNavigationBar: Boolean= true) {
         this.app = app
         SkinResources.init(app)
         SkinPreference.init(app)
+        this.includeTypeface = includeTypeface
+        this.includeNavigationBar = includeNavigationBar
+        this.includeStatusBar = includeStatusBar
         app.registerActivityLifecycleCallbacks(SkinLifecycleCallbacks())
         changeSkin(SkinPreference.getSkin())
     }
