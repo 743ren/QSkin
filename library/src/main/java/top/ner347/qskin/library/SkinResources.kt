@@ -106,6 +106,10 @@ object SkinResources {
     }
 
     fun getTypeface(skinTypefaceId: Int): Typeface {
+        // 使用者没有在主题全局配置
+        if (skinTypefaceId == 0) {
+            return Typeface.DEFAULT
+        }
         val skinTypefacePath = getString(skinTypefaceId)
         // 没有在 strings.xml 中写字体路径
         if (TextUtils.isEmpty(skinTypefacePath)) {
