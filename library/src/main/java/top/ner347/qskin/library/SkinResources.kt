@@ -3,16 +3,20 @@ package top.ner347.qskin.library
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
+import android.graphics.BitmapFactory
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
 
 object SkinResources {
 
-    private var appResources: Resources? = null // app 本身的 Resources
-    private var skinResources: Resources? = null // 皮肤包的 Resources
+    var appResources: Resources? = null // app 本身的 Resources
+        private set
+    var skinResources: Resources? = null // 皮肤包的 Resources
+        private set
     private var skinPkgName: String? = null
-    private var isDefaultSkin = true
+    var isDefaultSkin = true
+        private set
 
     fun init(context: Context) {
         appResources = context.resources
@@ -37,7 +41,7 @@ object SkinResources {
         isDefaultSkin = TextUtils.isEmpty(pkgName) || resources == null
     }
 
-    private fun getIdentifier(resId: Int): Int {
+    fun getIdentifier(resId: Int): Int {
         if (isDefaultSkin) {
             return resId
         }
