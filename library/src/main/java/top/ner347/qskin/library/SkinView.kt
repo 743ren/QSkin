@@ -62,7 +62,7 @@ class SkinView(
     }
 
     private fun applyTypeFace(typeface: Typeface?) {
-        if (view is TextView && typeface != null) {
+        if (view is TextView && typeface != null && SkinManager.includeTypeface) {
             view.typeface = typeface
         }
     }

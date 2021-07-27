@@ -50,9 +50,7 @@ class SkinAttribute(private val typeface: Typeface?) {
         }
         // for 循环后，attributeNameAndValues 内记录了所有需要替换的属性和属性值
         // 如果是空的，但是 TextView，可能需要换字体
-        if (view is SkinViewSupport ||
-            (attributeNameAndValues.isNotEmpty() && view !is TextView) || // 如果是TextView还不为空，下面的判断就执行不了了
-            (view is TextView && SkinManager.includeTypeface) ) {
+        if (attributeNameAndValues.isNotEmpty() || view is TextView || view is SkinViewSupport) {
             val skinView = SkinView(view, attributeNameAndValues)
             // Activity 创建后会经过 Factory2 调到这里，主动去应用当前皮肤包资源
             // 这样如果切换了皮肤后，新创建的 Activity 也能使用新的皮肤

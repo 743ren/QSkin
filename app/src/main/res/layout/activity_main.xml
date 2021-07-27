@@ -42,6 +42,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="白天"/>
+    <include
+        layout="@layout/layout_include"/>
+
     <pot.ner347.qskin.TestView
         android:layout_width="50dp"
         android:layout_height="50dp"
