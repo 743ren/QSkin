@@ -13,6 +13,11 @@ object SkinManager: Observable() {
     var includeTypeface: Boolean = true
     var includeStatusBar: Boolean = true
     var includeNavigationBar: Boolean = true
+    var skinStatusBarHandler: ISkinStatusBarHandler = DefaultSkinStatusBarHandler()
+        set(handler) {
+            includeStatusBar = true
+            field = handler
+        }
 
     @JvmStatic
     fun init(app: Application, includeTypeface: Boolean = true, includeStatusBar: Boolean = true, includeNavigationBar: Boolean= true) {

@@ -10,8 +10,8 @@ import androidx.annotation.RequiresApi
 class SkinThemeUtils {
 
     companion object {
-        private val APPCOMPAT_COLOR_PRIMARY_DARK_ATTRS = intArrayOf(androidx.appcompat.R.attr.colorPrimaryDark)
-        private val STATUS_BAR_COLOR_ATTR = intArrayOf(R.attr.statusBarColor)
+        val APPCOMPAT_COLOR_PRIMARY_DARK_ATTRS = intArrayOf(androidx.appcompat.R.attr.colorPrimaryDark)
+        val STATUS_BAR_COLOR_ATTR = intArrayOf(R.attr.statusBarColor)
         private val NAVIGATION_BAR_COLOR_ATTR = intArrayOf(R.attr.navigationBarColor)
 
         private val TYPEFACE_ATTR = intArrayOf(top.ner347.qskin.library.R.attr.skinTypeface)

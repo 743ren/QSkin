@@ -62,7 +62,9 @@ class SkinLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
 
         // 修改状态栏、导航栏
         SkinThemeUtils.updateNavigationBarColor(activity)
-        SkinThemeUtils.updateStatusBarColor(activity)
+        if (SkinManager.includeStatusBar) {
+            SkinManager.skinStatusBarHandler.changeStatusBar(activity)
+        }
     }
 
     override fun onActivityResumed(activity: Activity) {

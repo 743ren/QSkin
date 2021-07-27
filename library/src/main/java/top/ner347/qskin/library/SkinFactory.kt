@@ -109,7 +109,9 @@ class SkinFactory(private val activity : Activity, typeface : Typeface?) : Layou
     }
 
     override fun update(o: Observable?, arg: Any?) {
-        SkinThemeUtils.updateStatusBarColor(activity)
+        if (SkinManager.includeStatusBar) {
+            SkinManager.skinStatusBarHandler.changeStatusBar(activity)
+        }
         SkinThemeUtils.updateNavigationBarColor(activity)
         skinAttribute.applySkin(SkinThemeUtils.getTypeface(activity))
     }
