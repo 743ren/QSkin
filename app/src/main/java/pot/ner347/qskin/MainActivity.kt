@@ -10,13 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import pot.ner347.qskin.skin.SkinBean
+import pot.ner347.qskin.skin.SKIN_RED
+import pot.ner347.qskin.skin.SkinUtil
 import top.ner347.qskin.library.SkinManager
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
-    var skins: List<SkinBean> = ArrayList()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -34,10 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.changeSkin).setOnClickListener {
-//            selectSkin(skins[0])
-            SkinManager.changeSkin(
-                "${getExternalFilesDir("")?.absolutePath}/skin_red.skin"
-            )
+            SkinManager.changeSkin(SkinUtil.getSkinMap(this)[SKIN_RED])
         }
         findViewById<Button>(R.id.reset).setOnClickListener {
             SkinManager.changeSkin(
@@ -81,26 +77,6 @@ class MainActivity : AppCompatActivity() {
             AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> {
             }
         }
-    }
-
-    private fun selectSkin(skin: SkinBean) {
-        // 比如 apk 都存到 /Android/data/包名/files/theme 目录下
-        val theme = File(filesDir, "theme")
-        if (theme.exists() && theme.isFile) {
-            theme.delete()
-        }
-        theme.mkdirs()
-        val skinFile: File = skin.getSkinFile(theme)
-        if (skinFile.exists()) { // 皮肤已存在，去执行换肤
-            SkinManager.changeSkin(skin.path)
-            return
-        }
-        val tempSkin = File(skinFile.parentFile, "${skin.name}.temp")
-        // 如果下载成功
-        tempSkin.renameTo(skinFile)
-        tempSkin.delete()
-        // 执行换肤，可能要切换线程
-        SkinManager.changeSkin(skin.path)
     }
 
     override fun onRequestPermissionsResult(
